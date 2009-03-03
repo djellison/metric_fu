@@ -18,7 +18,14 @@
   		<tr class='<%= cycle("light", "dark", count) %>'>
   		  <td>
   			  <% match[1..-1].each do |filename| %>
-  			  <%= link_to_filename(*filename.split(":")) %><br>
+  			    <% if !ENV["CC_BUILD_ARTIFACTS"].nil? then %>
+  			      <% line = filename.split(':') %>
+  			      <% filepath = "#{line[0]}?line=#{line[1]}##{line[1]}" %>
+  		          <% project = RAILS_ROOT.split('/')[-2] %>
+  		          <%= "<a href=\"/projects/code/#{project}/#{filepath}\">#{filename}<a/><br/>" if filepath %>
+  		        <% else %>
+  			      <%= link_to_filename(*filename.split(":")) %><br>
+  			    <% end %>
   			  <% end %>
   		  </td>
     		<td><%= match.first %></td>
