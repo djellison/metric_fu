@@ -16,7 +16,15 @@
 		</tr>
 		<% @matches.each_with_index do |match, count| %>
   		<tr class='<%= cycle("light", "dark", count) %>'>
-  		  <td><%= match.first %></td>
+  		  <td>
+  		    <% if !ENV["CC_BUILD_ARTIFACTS"].nil? then %>
+  		      <% filepath = match.first.to_s.split('"')[1] %>
+  		      <% project = RAILS_ROOT.split('/')[-2] %>
+  		      <%= "<a href=\"/projects/code/#{project}/#{filepath}\">#{match.first}<a/>" %>
+  		    <% else %>
+  		      <%= match.first %>
+  		    <% end %>
+                  </td>
   		  <td>
   			  <% match[1..-1].each do |line| %>
   			  <%= line %><br>
